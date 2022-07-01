@@ -3,11 +3,12 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: '',
+    basePath: '../',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-browserstack-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
@@ -35,8 +36,28 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
-    autoWatch: true,
+    logLevel: config.LOG_DEBUG,
+    autoWatch: false,
+    browserStack: {
+      username: process.env.BROWSERSTACK_USERNAME,
+      accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
+      project: 'cargo-hub-ui',
+      build: 'test-angular-14',
+      //timeout: 1800, // max: 1800
+      // explicitly set local tunnel identifier to assure parallel builds do not interfere with each other:
+      localIdentifier: (process.env.BROWSERSTACK_BUILD_NAME || 'manual-local-build')
+        .replace('%2F', '-').replace('/', '-'),
+      //retryLimit: 2,
+      //captureTimeout: 600 * 5,
+    },
+    customLaunchers: {
+      bs_chrome_win: {
+        base: 'BrowserStack',
+        browser: 'Chrome',
+        os: 'Windows',
+        os_version: '10'
+      }
+    },
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true
