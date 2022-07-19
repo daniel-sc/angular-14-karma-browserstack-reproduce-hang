@@ -6,8 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "test-ci": "ng test --watch=false --browsers=bs_chrome_win"
+    "test": "ng test --watch=false",
+    "test-ci": "ng test --watch=false --browsers=bs_chrome_win",
+    "test-chrome-headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "test-chrome-local": "ng test --watch=false --browsers=Chrome"
   },
   "private": true,
   "dependencies": {
